@@ -148,3 +148,43 @@ Request body:
 - `.env` is ignored by git and should never be committed.
 - MongoDB Atlas credentials should be rotated if exposed.
 - The backend has been tested locally with register, login, create task, and fetch task flows.
+
+## Deployment
+
+### Backend on Render
+
+1. Push the latest code to GitHub.
+2. Create a new **Web Service** on Render.
+3. Connect the SprintLens GitHub repository.
+4. Set the **Root Directory** to `backend`.
+5. Use these build and start settings:
+
+```text
+Build Command: npm install
+Start Command: npm run start
+```
+
+6. Add these environment variables on Render:
+
+```env
+PORT=5000
+MONGO_URL=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secret_key
+```
+
+7. Deploy the service and copy the live backend URL.
+
+### Frontend on Vercel
+
+The frontend MVP will be added next. When it is ready:
+
+1. Create a Vercel project.
+2. Connect the same GitHub repository.
+3. Set the frontend root directory when needed.
+4. Add the deployed backend URL to the frontend environment variables.
+
+### Important Deployment Notes
+
+- Keep MongoDB Atlas IP access open while testing deployment, or add the Render server IP when needed.
+- If the frontend is deployed later, update backend CORS to allow the frontend URL.
+- Never commit `.env` or database credentials to GitHub.
