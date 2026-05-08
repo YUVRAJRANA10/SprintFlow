@@ -113,6 +113,26 @@ GET  https://sprintlens-lg19.onrender.com/api/tasks  (requires Authorization hea
 
 If you want, I can trigger and verify the endpoints for you after you push and the redeploy completes.
 
+## Deploying the frontend to Vercel
+
+This repository is a monorepo. To deploy only the `frontend` app to Vercel:
+
+1. Go to https://vercel.com/new and import this GitHub repository.
+2. When Vercel asks for the Project Root, set it to `frontend` (or leave root and set the build command/output below).
+3. Configure the build settings (Vercel often autodetects these):
+
+  - **Framework Preset:** Other
+  - **Build Command:** `npm run build`
+  - **Output Directory:** `dist`
+
+4. Add an Environment Variable in Vercel:
+
+  - `VITE_API_URL` = `https://sprintlens-lg19.onrender.com`
+
+5. Deploy the project. After it finishes, open the deployment URL and verify register/login and task flows.
+
+Note: I added `vercel.json` to help Vercel detect the `frontend` package and build it correctly in the monorepo.
+
 When the backend is deployed on Render, replace the value with the live backend URL.
 
 ### 4. Run the backend
