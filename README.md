@@ -83,64 +83,12 @@ VITE_API_URL=https://sprintlens-lg19.onrender.com
 
 If `VITE_API_URL` is not set, the frontend now defaults to the deployed Render backend URL.
 
-## Redeploying the backend on Render
-
-If the live service returns 404 for API routes, redeploy the backend with the correct service root. This repo includes a `render.yaml` that instructs Render to build and start from the `backend` folder.
-
-Steps:
-
-1. Push your commits to the `main` branch (or the branch you configured on Render):
-
-```powershell
-git add render.yaml README.md frontend/src/App.jsx
-git commit -m "ci: add Render manifest and docs for backend redeploy"
-git push origin main
-```
-
-2. In the Render dashboard for the service, confirm the service name is `sprintlens-backend` (or create a new web service) and ensure these environment variables are set:
-
-- `MONGO_URL` — your MongoDB Atlas connection string
-- `JWT_SECRET` — your JWT signing secret
-
-3. Trigger a manual deploy from the Render dashboard (or wait for the automatic deploy). After the deploy finishes, test the endpoints:
-
-```
-GET https://sprintlens-lg19.onrender.com/            -> should return { "message": "SprintLens backend is running" }
-POST https://sprintlens-lg19.onrender.com/api/auth/register
-POST https://sprintlens-lg19.onrender.com/api/auth/login
-GET  https://sprintlens-lg19.onrender.com/api/tasks  (requires Authorization header)
-```
-
-If you want, I can trigger and verify the endpoints for you after you push and the redeploy completes.
-
-## Deploying the frontend to Vercel
-
-This repository is a monorepo. To deploy only the `frontend` app to Vercel:
-
-1. Go to https://vercel.com/new and import this GitHub repository.
-2. When Vercel asks for the Project Root, set it to `frontend` (or leave root and set the build command/output below).
-3. Configure the build settings (Vercel often autodetects these):
-
-  - **Framework Preset:** Other
-  - **Build Command:** `npm run build`
-  - **Output Directory:** `dist`
-
-4. Add an Environment Variable in Vercel:
-
-  - `VITE_API_URL` = `https://sprintlens-lg19.onrender.com`
-
-5. Deploy the project. After it finishes, open the deployment URL and verify register/login and task flows.
-
-Note: I added `vercel.json` to help Vercel detect the `frontend` package and build it correctly in the monorepo.
-
 ## Live Deployments
 
-- **Frontend (Vercel):** https://sprint-lens.vercel.app/ — Minimal React/Vite SPA (auth + tasks). Set `VITE_API_URL` to the backend URL in Vercel env.
-- **Backend (Render):** https://sprintlens-lg19.onrender.com/ — API server exposing `/api/auth` and `/api/tasks` used by the frontend.
+- **Frontend (Vercel):** https://sprint-lens.vercel.app/
+- **Backend (Render):** https://sprintlens-lg19.onrender.com/
 
-Both sites are deployed and verified: registration, login, and task CRUD work end-to-end against the deployed backend. The repo contains `render.yaml` (backend) and `vercel.json` (frontend) to keep deployments reproducible.
-
-If you'd like, I can add a tiny smoke-test script to the repo that runs a quick register -> create task -> fetch tasks check against the deployed backend.
+Both sites are live and connected: the frontend uses the deployed backend for register, login, and task CRUD.
 
 When the backend is deployed on Render, replace the value with the live backend URL.
 
