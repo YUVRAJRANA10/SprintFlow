@@ -1,10 +1,10 @@
 # SprintLens
 
-SprintLens is a backend-first task management MVP built for the Primetrade internship assignment. It provides user authentication, role-based access control, and task CRUD APIs using Node.js, Express, MongoDB Atlas, JWT, and bcryptjs.
+SprintLens is a lightweight developer workflow and task management platform foundation. The current codebase focuses on a working backend MVP with authentication, role-based access control, and task CRUD APIs using Node.js, Express, MongoDB Atlas, JWT, and bcryptjs.
 
 ## Current Scope
 
-This repository currently focuses on the backend submission requirements:
+This repository currently focuses on the backend foundation of SprintLens:
 
 - User registration and login
 - Password hashing with bcryptjs
@@ -14,7 +14,7 @@ This repository currently focuses on the backend submission requirements:
 - Task CRUD APIs
 - MongoDB Atlas integration
 
-The frontend MVP and later analytics dashboard will be added in the next phase.
+The next phase is a minimal frontend MVP that will turn this into a usable product shell, followed by a broader productivity and analytics layer.
 
 ## Tech Stack
 
@@ -32,6 +32,11 @@ The frontend MVP and later analytics dashboard will be added in the next phase.
 
 ```text
 SprintLens
+├── frontend
+│   ├── index.html
+│   ├── src
+│   ├── vite.config.js
+│   └── package.json
 ├── backend
 │   ├── config
 │   ├── controllers
@@ -46,14 +51,21 @@ SprintLens
 
 ## Setup Instructions
 
-### 1. Install dependencies
+### 1. Install backend dependencies
 
 ```bash
 cd backend
 npm install
 ```
 
-### 2. Configure environment variables
+### 2. Install frontend dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+### 3. Configure environment variables
 
 Create a `.env` file inside `backend` with:
 
@@ -63,7 +75,7 @@ MONGO_URL=your_mongodb_atlas_connection_string
 JWT_SECRET=your_secret_key
 ```
 
-### 3. Run the backend
+### 4. Run the backend
 
 ```bash
 cd backend
@@ -75,6 +87,15 @@ The server will run at:
 ```text
 http://localhost:5000
 ```
+
+### 5. Run the frontend
+
+```bash
+cd frontend
+npm run dev
+```
+
+The frontend will run on the Vite local URL shown in the terminal.
 
 ## API Endpoints
 
@@ -148,6 +169,7 @@ Request body:
 - `.env` is ignored by git and should never be committed.
 - MongoDB Atlas credentials should be rotated if exposed.
 - The backend has been tested locally with register, login, create task, and fetch task flows.
+- This repository is intentionally structured to evolve into the full SprintLens product, not just a throwaway demo.
 
 ## Deployment
 
@@ -176,11 +198,11 @@ JWT_SECRET=your_secret_key
 
 ### Frontend on Vercel
 
-The frontend MVP will be added next. When it is ready:
+The minimal frontend MVP is now scaffolded locally. When it is ready to deploy:
 
 1. Create a Vercel project.
 2. Connect the same GitHub repository.
-3. Set the frontend root directory when needed.
+3. Set the frontend root directory to `frontend`.
 4. Add the deployed backend URL to the frontend environment variables.
 
 ### Important Deployment Notes
@@ -188,3 +210,19 @@ The frontend MVP will be added next. When it is ready:
 - Keep MongoDB Atlas IP access open while testing deployment, or add the Render server IP when needed.
 - If the frontend is deployed later, update backend CORS to allow the frontend URL.
 - Never commit `.env` or database credentials to GitHub.
+
+## Product Direction
+
+SprintLens is being shaped as a reusable platform, not a one-off test app.
+
+Short-term:
+
+- Complete the minimal frontend MVP
+- Connect frontend auth and task flows to the deployed backend
+- Keep the UI simple and functional
+
+Mid-term:
+
+- Add productivity views and dashboard surfaces
+- Add richer task workflows and team-oriented features
+- Prepare the codebase for the next assignment phase without rewriting the backend
