@@ -133,6 +133,15 @@ This repository is a monorepo. To deploy only the `frontend` app to Vercel:
 
 Note: I added `vercel.json` to help Vercel detect the `frontend` package and build it correctly in the monorepo.
 
+## Live Deployments
+
+- **Frontend (Vercel):** https://sprint-lens.vercel.app/ — Minimal React/Vite SPA (auth + tasks). Set `VITE_API_URL` to the backend URL in Vercel env.
+- **Backend (Render):** https://sprintlens-lg19.onrender.com/ — API server exposing `/api/auth` and `/api/tasks` used by the frontend.
+
+Both sites are deployed and verified: registration, login, and task CRUD work end-to-end against the deployed backend. The repo contains `render.yaml` (backend) and `vercel.json` (frontend) to keep deployments reproducible.
+
+If you'd like, I can add a tiny smoke-test script to the repo that runs a quick register -> create task -> fetch tasks check against the deployed backend.
+
 When the backend is deployed on Render, replace the value with the live backend URL.
 
 ### 4. Run the backend
