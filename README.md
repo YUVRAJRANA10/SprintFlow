@@ -78,8 +78,40 @@ JWT_SECRET=your_secret_key
 Create a `.env` file inside `frontend` with:
 
 ```env
-VITE_API_URL=http://localhost:5000
+VITE_API_URL=https://sprintlens-lg19.onrender.com
 ```
+
+If `VITE_API_URL` is not set, the frontend now defaults to the deployed Render backend URL.
+
+## Redeploying the backend on Render
+
+If the live service returns 404 for API routes, redeploy the backend with the correct service root. This repo includes a `render.yaml` that instructs Render to build and start from the `backend` folder.
+
+Steps:
+
+1. Push your commits to the `main` branch (or the branch you configured on Render):
+
+```powershell
+git add render.yaml README.md frontend/src/App.jsx
+git commit -m "ci: add Render manifest and docs for backend redeploy"
+git push origin main
+```
+
+2. In the Render dashboard for the service, confirm the service name is `sprintlens-backend` (or create a new web service) and ensure these environment variables are set:
+
+- `MONGO_URL` — your MongoDB Atlas connection string
+- `JWT_SECRET` — your JWT signing secret
+
+3. Trigger a manual deploy from the Render dashboard (or wait for the automatic deploy). After the deploy finishes, test the endpoints:
+
+```
+GET https://sprintlens-lg19.onrender.com/            -> should return { "message": "SprintLens backend is running" }
+POST https://sprintlens-lg19.onrender.com/api/auth/register
+POST https://sprintlens-lg19.onrender.com/api/auth/login
+GET  https://sprintlens-lg19.onrender.com/api/tasks  (requires Authorization header)
+```
+
+If you want, I can trigger and verify the endpoints for you after you push and the redeploy completes.
 
 When the backend is deployed on Render, replace the value with the live backend URL.
 

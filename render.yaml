@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: sprintlens-backend
+    env: node
+    branch: main
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    autoDeploy: true
+    # Do not store secrets here. Set MONGO_URL and JWT_SECRET in the Render dashboard or use Pull Request secrets.
