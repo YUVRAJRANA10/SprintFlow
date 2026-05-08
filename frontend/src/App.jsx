@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_BASE = import.meta.env.VITE_API_URL || 'https://sprintlens-lg19.onrender.com'
 
 const emptyAuth = {
   name: '',
