@@ -75,6 +75,14 @@ MONGO_URL=your_mongodb_atlas_connection_string
 JWT_SECRET=your_secret_key
 ```
 
+Create a `.env` file inside `frontend` with:
+
+```env
+VITE_API_URL=http://localhost:5000
+```
+
+When the backend is deployed on Render, replace the value with the live backend URL.
+
 ### 4. Run the backend
 
 ```bash
