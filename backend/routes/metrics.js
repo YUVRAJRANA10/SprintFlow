@@ -6,6 +6,7 @@ import Deployment from '../models/Deployment.js';
 import BugReport from '../models/BugReport.js';
 import User from '../models/User.js';
 import authMiddleware from '../middleware/authMiddleware.js';
+import { generateRecommendations } from '../utils/recommendations.js';
 
 const router = express.Router();
 
@@ -34,16 +35,21 @@ async function buildDeveloperMetrics(developerId, month) {
     ? Number((prs.reduce((sum, pr) => sum + (pr.review_wait_hours || 0), 0) / prs.length).toFixed(2))
     : 0;
 
+  const metricsObj = {
+    cycle_time: cycleTime,
+    pr_throughput: prs.length,
+    pr_review_wait: prReviewTime,
+    escaped_bugs: bugs.filter((bug) => bug.escaped_to_prod).length,
+    issues_completed: jiraIssues.length,
+  };
+
+  const recommendations = generateRecommendations(metricsObj, 'developer');
+
   return {
     ...developer,
     month: month || 'all-time',
-    metrics: {
-      cycle_time: cycleTime,
-      pr_throughput: prs.length,
-      pr_review_wait: prReviewTime,
-      escaped_bugs: bugs.filter((bug) => bug.escaped_to_prod).length,
-      issues_completed: jiraIssues.length,
-    },
+    metrics: metricsObj,
+    recommendations,
   };
 }
 
@@ -142,19 +148,24 @@ router.get('/managers/:id/metrics', authMiddleware, async (req, res) => {
       ? (bugs.filter(b => b.escaped_to_prod).length / jiraIssues.length).toFixed(4)
       : 0;
 
+    const metricsObj = {
+      avg_cycle_time: parseFloat(avgCycleTime),
+      avg_lead_time: parseFloat(avgLeadTime),
+      deployment_frequency: deploymentFreq,
+      bug_rate: parseFloat(bugRate),
+      pr_throughput: prs.length,
+      issues_completed: jiraIssues.length
+    };
+
+    const recommendations = generateRecommendations(metricsObj, 'team');
+
     res.json({
       manager_id: req.params.id,
       manager_name: teamMembers[0].manager_name,
       team_size: teamMembers.length,
       month: month || 'all-time',
-      metrics: {
-        avg_cycle_time: parseFloat(avgCycleTime),
-        avg_lead_time: parseFloat(avgLeadTime),
-        deployment_frequency: deploymentFreq,
-        bug_rate: parseFloat(bugRate),
-        pr_throughput: prs.length,
-        issues_completed: jiraIssues.length
-      },
+      metrics: metricsObj,
+      recommendations,
       team_members: teamMembers.map(m => m.developer_name)
     });
   } catch (error) {

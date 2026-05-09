@@ -286,23 +286,49 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
             </div>
 
             {developerMetrics && (
-              <div className="metrics-grid">
-                <article className="metric-card">
-                  <span>Cycle time</span>
-                  <strong>{developerMetrics.metrics.cycle_time} days</strong>
-                </article>
-                <article className="metric-card">
-                  <span>PR throughput</span>
-                  <strong>{developerMetrics.metrics.pr_throughput}</strong>
-                </article>
-                <article className="metric-card">
-                  <span>Review wait</span>
-                  <strong>{developerMetrics.metrics.pr_review_wait} hrs</strong>
-                </article>
-                <article className="metric-card">
-                  <span>Escaped bugs</span>
-                  <strong>{developerMetrics.metrics.escaped_bugs}</strong>
-                </article>
+              <div className="content-stack">
+                <div className="metrics-grid">
+                  <article className="metric-card">
+                    <span>Cycle time</span>
+                    <strong>{developerMetrics.metrics.cycle_time} days</strong>
+                  </article>
+                  <article className="metric-card">
+                    <span>PR throughput</span>
+                    <strong>{developerMetrics.metrics.pr_throughput}</strong>
+                  </article>
+                  <article className="metric-card">
+                    <span>Review wait</span>
+                    <strong>{developerMetrics.metrics.pr_review_wait} hrs</strong>
+                  </article>
+                  <article className="metric-card">
+                    <span>Escaped bugs</span>
+                    <strong>{developerMetrics.metrics.escaped_bugs}</strong>
+                  </article>
+                </div>
+
+                {developerMetrics.recommendations && (
+                  <div className="recommendations-section">
+                    <h3 className="section-title">Recommendations</h3>
+                    <div className="recommendations-grid">
+                      {developerMetrics.recommendations
+                        .sort((a, b) => {
+                          const priorityOrder = { high: 0, medium: 1, low: 2 };
+                          return priorityOrder[a.priority] - priorityOrder[b.priority];
+                        })
+                        .map((rec, idx) => (
+                          <article key={idx} className={`recommendation-card rec-${rec.status}`}>
+                            <div className="rec-header">
+                              <span className={`rec-status rec-status-${rec.status}`}>{rec.status.toUpperCase()}</span>
+                              <span className="rec-priority">{rec.priority}</span>
+                            </div>
+                            <h4>{rec.title}</h4>
+                            <p className="rec-value">Current: <strong>{rec.value}</strong> | Target: <strong>{rec.threshold}</strong></p>
+                            <p className="rec-action">{rec.action}</p>
+                          </article>
+                        ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </section>
@@ -328,23 +354,49 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
             </div>
 
             {managerMetrics && (
-              <div className="metrics-grid">
-                <article className="metric-card">
-                  <span>Team size</span>
-                  <strong>{managerMetrics.team_size}</strong>
-                </article>
-                <article className="metric-card">
-                  <span>Avg cycle time</span>
-                  <strong>{managerMetrics.metrics.avg_cycle_time} days</strong>
-                </article>
-                <article className="metric-card">
-                  <span>Avg lead time</span>
-                  <strong>{managerMetrics.metrics.avg_lead_time} days</strong>
-                </article>
-                <article className="metric-card">
-                  <span>Bug rate</span>
-                  <strong>{(managerMetrics.metrics.bug_rate * 100).toFixed(2)}%</strong>
-                </article>
+              <div className="content-stack">
+                <div className="metrics-grid">
+                  <article className="metric-card">
+                    <span>Team size</span>
+                    <strong>{managerMetrics.team_size}</strong>
+                  </article>
+                  <article className="metric-card">
+                    <span>Avg cycle time</span>
+                    <strong>{managerMetrics.metrics.avg_cycle_time} days</strong>
+                  </article>
+                  <article className="metric-card">
+                    <span>Avg lead time</span>
+                    <strong>{managerMetrics.metrics.avg_lead_time} days</strong>
+                  </article>
+                  <article className="metric-card">
+                    <span>Bug rate</span>
+                    <strong>{(managerMetrics.metrics.bug_rate * 100).toFixed(2)}%</strong>
+                  </article>
+                </div>
+
+                {managerMetrics.recommendations && (
+                  <div className="recommendations-section">
+                    <h3 className="section-title">Team Recommendations</h3>
+                    <div className="recommendations-grid">
+                      {managerMetrics.recommendations
+                        .sort((a, b) => {
+                          const priorityOrder = { high: 0, medium: 1, low: 2 };
+                          return priorityOrder[a.priority] - priorityOrder[b.priority];
+                        })
+                        .map((rec, idx) => (
+                          <article key={idx} className={`recommendation-card rec-${rec.status}`}>
+                            <div className="rec-header">
+                              <span className={`rec-status rec-status-${rec.status}`}>{rec.status.toUpperCase()}</span>
+                              <span className="rec-priority">{rec.priority}</span>
+                            </div>
+                            <h4>{rec.title}</h4>
+                            <p className="rec-value">Current: <strong>{rec.value}</strong> | Target: <strong>{rec.threshold}</strong></p>
+                            <p className="rec-action">{rec.action}</p>
+                          </article>
+                        ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </section>
