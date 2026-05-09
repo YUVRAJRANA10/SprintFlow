@@ -1,245 +1,358 @@
 # SprintLens
 
-SprintLens is a lightweight developer workflow and task management platform foundation. The current codebase focuses on a working backend MVP with authentication, role-based access control, and task CRUD APIs using Node.js, Express, MongoDB Atlas, JWT, and bcryptjs.
+> Developer productivity platform powered by DORA metrics, real-time recommendations, and actionable insights.
 
-## Current Scope
+SprintLens transforms raw metrics into clear developer actions. Built on industry-standard DORA frameworks (cycle time, lead time, deployment frequency, bug rate), SprintLens provides **intelligent rule-based recommendations** that help individual contributors and teams improve their delivery performance.
 
-This repository currently focuses on the backend foundation of SprintLens:
+---
 
-- User registration and login
-- Password hashing with bcryptjs
-- JWT authentication
-- Protected routes with middleware
-- Role-based access for `admin` and `user`
-- Task CRUD APIs
-- MongoDB Atlas integration
+## ✨ Features
 
-The next phase is a minimal frontend MVP that will turn this into a usable product shell, followed by a broader productivity and analytics layer.
+- **Developer-Centric Dashboard** – Personal metrics dashboard showing your performance metrics and recommendations
+- **Team Aggregation** – Manager view with team-level metrics and insights
+- **Rule-Based Recommendations** – Intelligent analysis of metrics with specific, actionable next steps
+- **Real Data** – Seeded with industry-standard test data; works with live MongoDB
+- **JWT Authentication** – Secure user sessions with token-based auth
+- **Modern Tech Stack** – MongoDB, Express, React, Vite; deployed on Render & Vercel
 
-## Tech Stack
+---
 
-### Backend
-- Node.js
-- Express.js
-- MongoDB Atlas
-- Mongoose
-- JWT
-- bcryptjs
-- dotenv
-- cors
+## 📋 Data Model
 
-## Project Structure
+SprintLens manages five collections:
 
-```text
-SprintLens
-├── frontend
-│   ├── index.html
-│   ├── src
-│   ├── vite.config.js
-│   └── package.json
-├── backend
-│   ├── config
-│   ├── controllers
-│   ├── middleware
-│   ├── models
-│   ├── routes
-│   ├── utils
-│   ├── server.js
-│   └── .env
-└── README.md
-```
+| Collection     | Purpose |
+|---|---|
+| **Developers** | Developer profiles with team/manager/level |
+| **JiraIssues** | Sprint work items with cycle metrics |
+| **PullRequests** | Code review data with review times |
+| **Deployments** | Deployment records with lead time |
+| **BugReports** | Quality metrics and escaped bugs |
 
-## Setup Instructions
+---
 
-### 1. Install backend dependencies
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 16+
+- MongoDB Atlas account (or local MongoDB instance)
+
+### 1. Clone & Install
 
 ```bash
+git clone https://github.com/YUVRAJRANA10/SprintLens.git
+cd SprintLens
+
+# Install backend
 cd backend
 npm install
-```
 
-### 2. Install frontend dependencies
-
-```bash
+# Install frontend (in new terminal)
 cd frontend
 npm install
 ```
 
-### 3. Configure environment variables
+### 2. Set Up Environment Variables
 
-Create a `.env` file inside `backend` with:
-
+**Backend** – Create `backend/.env`:
 ```env
+MONGO_URL=mongodb+srv://<username>:<password>@cluster.mongodb.net/sprintlens?retryWrites=true&w=majority
+JWT_SECRET=your-secret-key-here
 PORT=5000
-MONGO_URL=your_mongodb_atlas_connection_string
-JWT_SECRET=your_secret_key
+NODE_ENV=development
 ```
 
-Create a `.env` file inside `frontend` with:
-
+**Frontend** – Create `frontend/.env`:
 ```env
-VITE_API_URL=https://sprintlens-lg19.onrender.com
+VITE_API_URL=http://localhost:5000
 ```
 
-If `VITE_API_URL` is not set, the frontend now defaults to the deployed Render backend URL.
-
-## Live Deployments
-
-- **Frontend (Vercel):** https://sprint-lens.vercel.app/
-- **Backend (Render):** https://sprintlens-lg19.onrender.com/
-
-Both sites are live and connected: the frontend uses the deployed backend for register, login, and task CRUD.
-
-When the backend is deployed on Render, replace the value with the live backend URL.
-
-### 4. Run the backend
+### 3. Seed Database
 
 ```bash
 cd backend
+npm run seed
+```
+
+This creates test accounts with password `Password123!`:
+- alice.johnson@sprintlens.dev
+- bob.smith@sprintlens.dev
+- carol.davis@sprintlens.dev
+- diana.martinez@sprintlens.dev
+- evan.patel@sprintlens.dev
+- fiona.lee@sprintlens.dev
+- george.wilson@sprintlens.dev
+- hannah.brown@sprintlens.dev
+
+### 4. Run Locally
+
+**Backend:**
+```bash
+cd backend
 npm run dev
+# Runs on http://localhost:5000
 ```
 
-The server will run at:
-
-```text
-http://localhost:5000
-```
-
-### 5. Run the frontend
-
+**Frontend** (new terminal):
 ```bash
 cd frontend
 npm run dev
+# Runs on http://localhost:5173
 ```
 
-The frontend will run on the Vite local URL shown in the terminal.
+### 5. Login & Explore
 
-## API Endpoints
+Navigate to http://localhost:5173, log in with any seeded account, and explore:
+- **Profile** – Your developer identity and team
+- **Summary** – DORA metrics by month
+- **Individual** – Developer-specific metrics + recommendations
+- **Team** – Manager-level aggregation + team recommendations
 
-### Auth
+---
 
-#### Register
-`POST /api/auth/register`
+## 📊 API Endpoints
 
-Request body:
-
-```json
-{
-  "name": "Test User",
-  "email": "test@example.com",
-  "password": "123456"
-}
+All endpoints require JWT authorization header:
 ```
-
-#### Login
-`POST /api/auth/login`
-
-Request body:
-
-```json
-{
-  "email": "test@example.com",
-  "password": "123456"
-}
-```
-
-### Tasks
-
-All task routes require a JWT in the `Authorization` header:
-
-```text
 Authorization: Bearer <token>
 ```
 
-#### Get tasks
-`GET /api/tasks`
+### Authentication
+- **POST** `/api/auth/login` – Login with email/password → returns JWT token
 
-#### Create task
-`POST /api/tasks`
+### Metrics (Developer)
+- **GET** `/api/metrics/developers` – List all developers
+- **GET** `/api/metrics/developers/:id` – Single developer metrics + recommendations
+- **GET** `/api/metrics/me` – Logged-in user's metrics + recommendations
 
-Request body:
+### Metrics (Team)
+- **GET** `/api/metrics/managers/:id/metrics` – Team aggregation for manager + recommendations
 
-```json
-{
-  "title": "First Task",
-  "description": "My first task",
-  "priority": "high"
-}
+### Metadata
+- **GET** `/api/metrics/months` – Available months for filtering
+- **GET** `/api/metrics/summary` – Organization-wide DORA metrics by month
+
+See [API_TESTING.md](API_TESTING.md) for complete endpoint reference with request/response examples and Postman collection.
+
+---
+
+## 🎯 Recommendation Engine
+
+SprintLens applies **rule-based thresholds** to generate actionable recommendations:
+
+### Developer Metrics
+| Metric | Threshold | Action |
+|---|---|---|
+| **Cycle Time** | > 5 days | "Break down features into smaller chunks" |
+| **PR Review Wait** | > 12 hours | "Increase code review frequency" |
+| **Escaped Bugs** | > 0 | "Implement pre-commit testing" |
+| **PR Throughput** | 0 per month | "Increase contribution frequency" |
+
+### Team Metrics
+| Metric | Threshold | Action |
+|---|---|---|
+| **Avg Cycle Time** | > 6 days | "Improve sprint planning and estimation" |
+| **Deployment Frequency** | < 1/week | "Improve CI/CD automation" |
+| **Bug Rate** | > 0.5 bugs/deploy | "Increase testing rigor" |
+
+Each recommendation includes:
+- **Status** – success (green), warning (orange), info (blue)
+- **Priority** – high, medium, low
+- **Current vs. Target** – concrete values for transparency
+- **Action** – specific next steps
+
+---
+
+## 🏗️ Architecture
+
+```
+SprintLens
+├── backend/
+│   ├── server.js                 # Express entry point
+│   ├── middleware/
+│   │   └── authMiddleware.js     # JWT validation
+│   ├── models/
+│   │   ├── Developer.js
+│   │   ├── JiraIssue.js
+│   │   ├── PullRequest.js
+│   │   ├── Deployment.js
+│   │   └── BugReport.js
+│   ├── routes/
+│   │   ├── auth.js              # Login endpoint
+│   │   └── metrics.js           # Metrics + recommendations API
+│   ├── utils/
+│   │   └── recommendations.js   # Rule-based recommendation logic
+│   ├── seed.js                  # Database seeding script
+│   └── package.json
+│
+├── frontend/
+│   ├── index.html
+│   ├── src/
+│   │   ├── App.jsx              # Router setup
+│   │   ├── pages/
+│   │   │   ├── LoginPage.jsx
+│   │   │   └── ProductDashboard.jsx  # 4-view dashboard
+│   │   └── styles/
+│   │       └── product-dashboard.css
+│   ├── vite.config.js
+│   └── package.json
+│
+├── render.yaml                  # Render deployment config
+├── vercel.json                  # Vercel deployment config
+└── API_TESTING.md              # API reference & Postman guide
 ```
 
-#### Update task
-`PUT /api/tasks/:id`
+**Tech Stack:**
+- **Backend:** Node.js 18+, Express.js, Mongoose 9.6.1, MongoDB Atlas, JWT
+- **Frontend:** React 18, Vite 5.4.21, modern CSS Grid/Flexbox
+- **Deployment:** Render (backend), Vercel (frontend)
 
-#### Delete task
-`DELETE /api/tasks/:id`
+---
 
-#### Admin-only fetch all tasks
-`GET /api/tasks/admin`
+## 🔐 Security
 
-## Role Rules
+- ✅ Passwords hashed with bcryptjs before storage
+- ✅ JWT tokens with configurable expiry
+- ✅ Auth middleware protects all metrics endpoints
+- ✅ `.env` files excluded from git (.gitignore)
+- ✅ CORS enabled for frontend domain
+- ✅ No sensitive data hardcoded in repository
 
-- `admin` can view and manage all tasks
-- `user` can only manage their own tasks
+---
 
-## Notes
+## 📦 Build & Deployment
 
-- `.env` is ignored by git and should never be committed.
-- MongoDB Atlas credentials should be rotated if exposed.
-- The backend has been tested locally with register, login, create task, and fetch task flows.
-- This repository is intentionally structured to evolve into the full SprintLens product, not just a throwaway demo.
+### Production Build
 
-## Deployment
-
-### Backend on Render
-
-1. Push the latest code to GitHub.
-2. Create a new **Web Service** on Render.
-3. Connect the SprintLens GitHub repository.
-4. Set the **Root Directory** to `backend`.
-5. Use these build and start settings:
-
-```text
-Build Command: npm install
-Start Command: npm run start
+**Frontend:**
+```bash
+cd frontend
+npm run build
+# Output: dist/ (optimized ~156KB JS, 14KB CSS after gzip)
 ```
 
-6. Add these environment variables on Render:
-
-```env
-PORT=5000
-MONGO_URL=your_mongodb_atlas_connection_string
-JWT_SECRET=your_secret_key
+**Backend:**
+```bash
+cd backend
+npm install
+npm run seed
+# Ready for deployment
 ```
 
-7. Deploy the service and copy the live backend URL.
+### Deploy to Render (Backend)
 
-### Frontend on Vercel
+1. Connect GitHub repo to Render
+2. Set environment variables (MONGO_URL, JWT_SECRET)
+3. Build command: `npm install && npm run seed && npm start`
+4. Start command: `npm start`
 
-The minimal frontend MVP is now scaffolded locally. When it is ready to deploy:
+### Deploy to Vercel (Frontend)
 
-1. Create a Vercel project.
-2. Connect the same GitHub repository.
-3. Set the frontend root directory to `frontend`.
-4. Add the deployed backend URL to the frontend environment variables.
+1. Connect GitHub repo to Vercel
+2. Set environment variable: `VITE_API_URL=https://<render-backend-url>`
+3. Build command: `npm run build`
+4. Output directory: `dist`
 
-### Important Deployment Notes
+---
 
-- Keep MongoDB Atlas IP access open while testing deployment, or add the Render server IP when needed.
-- If the frontend is deployed later, update backend CORS to allow the frontend URL.
-- Never commit `.env` or database credentials to GitHub.
+## 🧪 Testing
 
-## Product Direction
+### Manual Testing
 
-SprintLens is being shaped as a reusable platform, not a one-off test app.
+See [API_TESTING.md](API_TESTING.md) for:
+- Complete endpoint reference
+- Request/response examples
+- Postman collection JSON
+- cURL commands for all endpoints
 
-Short-term:
+### Quick Test
 
-- Complete the minimal frontend MVP
-- Connect frontend auth and task flows to the deployed backend
-- Keep the UI simple and functional
+```bash
+# Get available months
+curl http://localhost:5000/api/metrics/months \
+  -H "Authorization: Bearer YOUR_TOKEN"
 
-Mid-term:
+# Get single developer metrics + recommendations
+curl http://localhost:5000/api/metrics/developers/1 \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
 
-- Add productivity views and dashboard surfaces
-- Add richer task workflows and team-oriented features
-- Prepare the codebase for the next assignment phase without rewriting the backend
+---
+
+## 📝 Environment Variables
+
+### Backend
+
+| Variable | Description | Example |
+|---|---|---|
+| `MONGO_URL` | MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/db` |
+| `JWT_SECRET` | Secret for signing JWT tokens | `your-secret-key` |
+| `PORT` | Server port | `5000` |
+| `NODE_ENV` | Environment | `development` or `production` |
+
+### Frontend
+
+| Variable | Description | Example |
+|---|---|---|
+| `VITE_API_URL` | Backend API URL | `http://localhost:5000` or `https://api.sprintlens.com` |
+
+---
+
+## 🐛 Troubleshooting
+
+| Issue | Solution |
+|---|---|
+| MongoDB connection fails | Check MONGO_URL format; ensure IP whitelist includes your IP |
+| Login returns 401 | Verify email/password; check seed script ran; inspect console for JWT errors |
+| Recommendations not showing | Check backend logs for errors; verify GET /metrics endpoints return recommendations array |
+| CORS errors in frontend | Check VITE_API_URL matches backend URL; ensure backend CORS middleware is enabled |
+| Build fails on Vercel | Check frontend/package.json has all dependencies; verify VITE_API_URL env var is set |
+
+---
+
+## 📚 Key Files
+
+| File | Purpose |
+|---|---|
+| [backend/utils/recommendations.js](backend/utils/recommendations.js) | Rule-based recommendation engine (160 lines) |
+| [backend/routes/metrics.js](backend/routes/metrics.js) | Metrics API with integrated recommendations |
+| [frontend/src/pages/ProductDashboard.jsx](frontend/src/pages/ProductDashboard.jsx) | 4-view dashboard with recommendations rendering |
+| [API_TESTING.md](API_TESTING.md) | Complete API reference and Postman guide |
+
+---
+
+## 🤝 Contributing
+
+1. Create a feature branch: `git checkout -b feature/your-feature`
+2. Make changes and test locally
+3. Commit with clear message: `git commit -m "Add feature X"`
+4. Push: `git push origin feature/your-feature`
+5. Open a pull request
+
+---
+
+## 📄 License
+
+MIT
+
+---
+
+## 🎯 Next Steps
+
+- [ ] Deploy backend to Render
+- [ ] Deploy frontend to Vercel
+- [ ] Test all endpoints with [API_TESTING.md](API_TESTING.md)
+
+---
+
+## 📞 Support
+
+For issues or questions:
+1. Check [API_TESTING.md](API_TESTING.md) for endpoint reference
+2. Review environment variable setup
+3. Check backend logs: `npm run dev` with output visible
+4. Verify database seed: `npm run seed` in backend
+
+---
+
+**Built with ❤️ by Yuvraj**
