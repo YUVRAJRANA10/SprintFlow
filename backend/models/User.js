@@ -21,10 +21,15 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
+    developer_id: {
+      type: String,
+      trim: true,
+      index: true,
+    },
     role: {
       type: String,
-      enum: ["admin", "user"],
-      default: "user",
+      enum: ["admin", "manager", "developer", "user"],
+      default: "developer",
     },
   },
   { timestamps: true }

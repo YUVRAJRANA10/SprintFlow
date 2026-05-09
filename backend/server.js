@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import connectDB from "./config/db.js"
 import taskRoutes from "./routes/taskRoutes.js";
+import metricsRoutes from "./routes/metrics.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import authRoutes from "./routes/authRoutes.js"
 dotenv.config()
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/metrics", metricsRoutes);
 
 app.get("/", (req,res) => {
 

@@ -4,7 +4,7 @@ import generateToken from "../utils/generateToken.js";
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, developer_id, role } = req.body;
 
     // Basic validation
     if (!name || !email || !password) {
@@ -18,7 +18,13 @@ export const registerUser = async (req, res) => {
     }
 
     // Create user (password hashing happens in model)
-    const user = await User.create({ name, email, password });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      developer_id,
+      role: role || (developer_id ? "developer" : "user"),
+    });
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -28,6 +34,7 @@ export const registerUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        developer_id: user.developer_id,
       },
     });
   } catch (error) {
@@ -55,6 +62,7 @@ export const loginUser = async (req, res) => {
           name: user.name,
           email: user.email,
           role: user.role,
+          developer_id: user.developer_id,
         },
       });
     }
