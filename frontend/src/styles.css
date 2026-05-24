@@ -531,7 +531,31 @@ button {
   transition: all 0.3s;
 }
 
+.auth-form select {
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(111, 231, 200, 0.2);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.select-label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 .auth-form input:focus {
+  outline: none;
+  border-color: #6fe7c8;
+  box-shadow: 0 0 0 4px rgba(111, 231, 200, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.auth-form select:focus {
   outline: none;
   border-color: #6fe7c8;
   box-shadow: 0 0 0 4px rgba(111, 231, 200, 0.08);

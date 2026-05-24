@@ -193,12 +193,20 @@ function App() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <input
-                type="text"
-                placeholder="Developer ID (e.g., DEV-001)"
-                value={developerId}
-                onChange={(e) => setDeveloperId(e.target.value.toUpperCase())}
-              />
+              <label className="select-label">
+                Seeded Developer ID (demo)
+                <select value={developerId} onChange={(e) => setDeveloperId(e.target.value)}>
+                  <option value="">Select a developer ID</option>
+                  <option value="DEV-001">DEV-001 — Alice Johnson</option>
+                  <option value="DEV-002">DEV-002 — Bob Smith</option>
+                  <option value="DEV-003">DEV-003 — Carol Davis</option>
+                  <option value="DEV-004">DEV-004 — David Brown</option>
+                  <option value="DEV-005">DEV-005 — Emma Wilson</option>
+                  <option value="DEV-006">DEV-006 — Frank Miller</option>
+                  <option value="DEV-007">DEV-007 — Grace Taylor</option>
+                  <option value="DEV-008">DEV-008 — Henry Martinez</option>
+                </select>
+              </label>
               <select value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="developer">Developer</option>
                 <option value="manager">Manager</option>
