@@ -6,9 +6,42 @@ const API_BASE = import.meta.env.VITE_API_URL || 'https://sprintlens-lg19.onrend
 const viewLabels = {
   profile: '01 Workspace Profile',
   summary: '02 Sprint Pulse',
-  ic: '03 Contributor Insights',
-  manager: '04 Team Health',
+  board: '03 Sprint Board',
+  ic: '04 Contributor Insights',
+  manager: '05 Team Health',
 }
+
+const sprintBoard = [
+  {
+    title: 'Backlog',
+    items: [
+      { title: 'Refine API rate limits', owner: 'Backend', size: 'M' },
+      { title: 'Finalize sprint goals', owner: 'Lead', size: 'S' },
+      { title: 'Review workflow checklist', owner: 'QA', size: 'S' },
+    ],
+  },
+  {
+    title: 'In Progress',
+    items: [
+      { title: 'Implement PR review SLA', owner: 'Frontend', size: 'L' },
+      { title: 'Reduce cycle time blockers', owner: 'Platform', size: 'M' },
+    ],
+  },
+  {
+    title: 'Review',
+    items: [
+      { title: 'Sprint retrospective notes', owner: 'Manager', size: 'S' },
+      { title: 'Deployment checklist update', owner: 'DevOps', size: 'M' },
+    ],
+  },
+  {
+    title: 'Done',
+    items: [
+      { title: 'Release readiness audit', owner: 'QA', size: 'S' },
+      { title: 'Bug triage cleanup', owner: 'Backend', size: 'S' },
+    ],
+  },
+]
 
 function fetchJSON(path, token) {
   return fetch(`${API_BASE}${path}`, {
@@ -271,6 +304,40 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
                   <div><span>Deploys</span><b>{month.deployment_frequency}</b></div>
                   <div><span>PRs</span><b>{month.pr_throughput}</b></div>
                   <div><span>Bug rate</span><b>{(month.bug_rate * 100).toFixed(2)}%</b></div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {view === 'board' && (
+          <section className="content-stack">
+            <div className="section-head">
+              <div>
+                <span className="card-kicker">Sprint board</span>
+                <h2>Active work by stage</h2>
+              </div>
+              <p>Lightweight, focused view of sprint execution aligned to contributor ownership.</p>
+            </div>
+
+            <div className="board-grid">
+              {sprintBoard.map((column) => (
+                <article key={column.title} className="board-column">
+                  <div className="board-header">
+                    <strong>{column.title}</strong>
+                    <span>{column.items.length} items</span>
+                  </div>
+                  <div className="board-cards">
+                    {column.items.map((item) => (
+                      <div key={item.title} className="board-card">
+                        <h4>{item.title}</h4>
+                        <div className="board-meta">
+                          <span>{item.owner}</span>
+                          <span className="board-pill">{item.size}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </article>
               ))}
             </div>
