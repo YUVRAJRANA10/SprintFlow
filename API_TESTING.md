@@ -1,6 +1,6 @@
 # API Testing Guide
 
-Complete reference for SprintLens API endpoints with request/response examples and Postman collection setup.
+Complete reference for SprintFlow API endpoints with request/response examples and Postman collection setup.
 
 ---
 
@@ -405,8 +405,8 @@ curl -X GET http://localhost:5000/api/metrics/summary \
 ```json
 {
   "info": {
-    "name": "SprintLens API",
-    "description": "API collection for SprintLens developer productivity platform",
+    "name": "SprintFlow API",
+    "description": "API collection for SprintFlow agile sprint workspace",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [

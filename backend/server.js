@@ -21,8 +21,7 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/metrics", metricsRoutes);
 
 app.get("/", (req,res) => {
-
-    res.json({message : "SprintLens backend is running"});
+    res.json({message : "SprintFlow backend is running"});
 })
 
 app.use(notFound);

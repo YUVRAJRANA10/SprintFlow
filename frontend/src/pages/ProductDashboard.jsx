@@ -4,10 +4,10 @@ import '../styles/product-dashboard.css'
 const API_BASE = import.meta.env.VITE_API_URL || 'https://sprintlens-lg19.onrender.com'
 
 const viewLabels = {
-  profile: '01 My Profile',
-  summary: '02 Monthly Summary',
-  ic: '03 Individual View',
-  manager: '04 Team View',
+  profile: '01 Workspace Profile',
+  summary: '02 Sprint Pulse',
+  ic: '03 Contributor Insights',
+  manager: '04 Team Health',
 }
 
 function fetchJSON(path, token) {
@@ -136,8 +136,8 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
         <div className="brand-block">
           <span className="brand-mark" />
           <div>
-            <strong>SprintLens</strong>
-            <p>Developer productivity platform</p>
+            <strong>SprintFlow</strong>
+            <p>Agile sprint workspace</p>
           </div>
         </div>
 
@@ -167,10 +167,10 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
       <main className="product-main">
         <header className="product-topbar">
           <div>
-            <span className="eyebrow">SprintLens / {viewLabels[view]}</span>
-            <h1>From raw metrics to clear developer actions.</h1>
+            <span className="eyebrow">SprintFlow / {viewLabels[view]}</span>
+            <h1>Agile delivery clarity and next steps.</h1>
             <p>
-              Seeded industry-style data, MongoDB persistence, JWT login, and a profile-first view for the signed-in developer.
+              Sprint pulse, contributor insights, and team health backed by MongoDB, JWT login, and action-focused recommendations.
             </p>
           </div>
 
@@ -194,7 +194,7 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
         {view === 'profile' && (
           <section className="feature-grid">
             <article className="feature-card hero">
-              <span className="card-kicker">My Profile</span>
+              <span className="card-kicker">Workspace profile</span>
               <h2>{profileData.user?.name || 'Developer profile'}</h2>
               <p>
                 {profileData.user?.developer_id ? `Developer ID ${profileData.user.developer_id}` : 'Linked developer profile from the seeded user account.'}
@@ -238,6 +238,17 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
                 <span>bugreports</span>
               </div>
             </article>
+
+            <article className="feature-card">
+              <span className="card-kicker">Sprint workflow stages</span>
+              <ul className="insight-list">
+                <li>Plan sprint scope and prioritize issues.</li>
+                <li>Build and ship incremental work.</li>
+                <li>Review PRs and unblock merges.</li>
+                <li>Deploy and monitor quality signals.</li>
+                <li>Capture retro actions for next sprint.</li>
+              </ul>
+            </article>
           </section>
         )}
 
@@ -245,10 +256,10 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
           <section className="content-stack">
             <div className="section-head">
               <div>
-                <span className="card-kicker">Monthly summary</span>
-                <h2>DORA metrics by month</h2>
+                <span className="card-kicker">Sprint pulse</span>
+                <h2>DORA signals by month</h2>
               </div>
-              <p>Simple thresholds and concise explanations can sit on top later. The raw data is already real and queryable.</p>
+              <p>Track delivery flow month over month and compare sprint health across periods.</p>
             </div>
 
             <div className="summary-grid">

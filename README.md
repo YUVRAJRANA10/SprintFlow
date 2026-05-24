@@ -1,15 +1,31 @@
-# SprintLens
+# SprintFlow
 
-> Developer productivity platform powered by DORA metrics, real-time recommendations, and actionable insights.
+> Agile sprint workspace powered by DORA metrics, real-time recommendations, and actionable insights.
 
-SprintLens transforms raw metrics into clear developer actions. Built on industry-standard DORA frameworks (cycle time, lead time, deployment frequency, bug rate), SprintLens provides **intelligent rule-based recommendations** that help individual contributors and teams improve their delivery performance.
+SprintFlow transforms raw delivery metrics into clear next steps. Built on industry-standard DORA frameworks (cycle time, lead time, deployment frequency, bug rate), SprintFlow provides **rule-based recommendations** that help contributors and teams improve their sprint flow.
+
+Inspired by agile workflows from tools like Jira and GoodDay Work, this project is fully implemented from scratch with a custom UX and data model.
+
+---
+
+## ✅ Problem Statement
+
+Teams often have delivery data but lack clarity on *what to do next*. SprintFlow closes the gap by turning sprint metrics into actionable recommendations across contributors and teams.
+
+---
+
+## 🧭 Module Alignment
+
+**Selected Module:** Agile Workflow & Sprint Management System (Inspired by Jira and GoodDay Work)
+
+This aligns with sprint tracking, contributor workflow visibility, and team-level productivity insights.
 
 ---
 
 ## ✨ Features
 
-- **Developer-Centric Dashboard** – Personal metrics dashboard showing your performance metrics and recommendations
-- **Team Aggregation** – Manager view with team-level metrics and insights
+- **Agile Workspace** – Sprint pulse, contributor insights, and team health in one view
+- **Role-Aware Views** – Personal workspace profile, contributor insights, and team health
 - **Rule-Based Recommendations** – Intelligent analysis of metrics with specific, actionable next steps
 - **Real Data** – Seeded with industry-standard test data; works with live MongoDB
 - **JWT Authentication** – Secure user sessions with token-based auth
@@ -19,7 +35,7 @@ SprintLens transforms raw metrics into clear developer actions. Built on industr
 
 ## 📋 Data Model
 
-SprintLens manages five collections:
+SprintFlow manages five collections:
 
 | Collection     | Purpose |
 |---|---|
@@ -103,10 +119,10 @@ npm run dev
 ### 5. Login & Explore
 
 Navigate to http://localhost:5173, log in with any seeded account, and explore:
-- **Profile** – Your developer identity and team
-- **Summary** – DORA metrics by month
-- **Individual** – Developer-specific metrics + recommendations
-- **Team** – Manager-level aggregation + team recommendations
+- **Workspace Profile** – Identity, team, role, and context
+- **Sprint Pulse** – DORA signals by month
+- **Contributor Insights** – Individual metrics + recommendations
+- **Team Health** – Manager-level aggregation + recommendations
 
 ---
 
@@ -138,7 +154,7 @@ See [API_TESTING.md](API_TESTING.md) for complete endpoint reference with reques
 
 ## 🎯 Recommendation Engine
 
-SprintLens applies **rule-based thresholds** to generate actionable recommendations:
+SprintFlow applies **rule-based thresholds** to generate actionable recommendations:
 
 ### Developer Metrics
 | Metric | Threshold | Action |
@@ -166,7 +182,7 @@ Each recommendation includes:
 ## 🏗️ Architecture
 
 ```
-SprintLens
+SprintFlow
 ├── backend/
 │   ├── server.js                 # Express entry point
 │   ├── middleware/
@@ -294,7 +310,7 @@ curl http://localhost:5000/api/metrics/developers/1 \
 
 | Variable | Description | Example |
 |---|---|---|
-| `VITE_API_URL` | Backend API URL | `http://localhost:5000` or `https://api.sprintlens.com` |
+| `VITE_API_URL` | Backend API URL | `http://localhost:5000` or `https://api.sprintflow.com` |
 
 ---
 

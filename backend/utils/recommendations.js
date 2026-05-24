@@ -1,5 +1,5 @@
 /**
- * Rule-based recommendation engine for SprintLens metrics.
+ * Rule-based recommendation engine for SprintFlow metrics.
  * Generates actionable insights based on DORA and developer metrics.
  */
 

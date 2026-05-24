@@ -11,7 +11,7 @@ function App() {
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(() => localStorage.getItem('token') || '')
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('sprintlens_user')
+    const saved = localStorage.getItem('sprintflow_user')
     return saved ? JSON.parse(saved) : null
   })
   const [loading, setLoading] = useState(false)
@@ -62,7 +62,7 @@ function App() {
       if (result.token) {
         setToken(result.token)
         setUser(result.user)
-        localStorage.setItem('sprintlens_user', JSON.stringify(result.user))
+        localStorage.setItem('sprintflow_user', JSON.stringify(result.user))
         setMessage('Registration successful!')
         setUsername('')
         setEmail('')
@@ -90,7 +90,7 @@ function App() {
       if (result.token) {
         setToken(result.token)
         setUser(result.user)
-        localStorage.setItem('sprintlens_user', JSON.stringify(result.user))
+        localStorage.setItem('sprintflow_user', JSON.stringify(result.user))
         setMessage('Login successful!')
         setEmail('')
         setPassword('')
@@ -106,7 +106,7 @@ function App() {
     setToken('')
     setUser(null)
     localStorage.removeItem('token')
-    localStorage.removeItem('sprintlens_user')
+    localStorage.removeItem('sprintflow_user')
     setUsername('')
     setEmail('')
     setPassword('')
@@ -121,8 +121,8 @@ function App() {
     <div className="app">
       <div className="auth-container">
         <div className="auth-card">
-          <h1>🚀 SprintLens</h1>
-          <p className="subtitle">Developer Productivity Dashboard</p>
+          <h1>🚀 SprintFlow</h1>
+          <p className="subtitle">Agile Sprint Workspace</p>
 
           {error && <div className="error">{error}</div>}
           {message && <div className="success">{message}</div>}
