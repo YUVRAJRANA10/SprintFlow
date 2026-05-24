@@ -221,6 +221,11 @@ export default function ProductDashboard({ currentUser, onLogout, token }) {
           </div>
         </header>
 
+        {!currentUser?.developer_id && (
+          <div className="banner info">
+            This account is not linked to seeded sprint metrics yet. Use a demo login or register with a valid Developer ID (DEV-001).
+          </div>
+        )}
         {error && <div className="banner error">{error}</div>}
         {loading && <div className="banner loading">Loading data...</div>}
 

@@ -6,9 +6,11 @@ const API_BASE = import.meta.env.VITE_API_URL || 'https://sprintlens-lg19.onrend
 
 function App() {
   const [mode, setMode] = useState('login')
-  const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [developerId, setDeveloperId] = useState('')
+  const [role, setRole] = useState('developer')
   const [token, setToken] = useState(() => localStorage.getItem('token') || '')
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('sprintflow_user')
@@ -37,11 +39,13 @@ function App() {
         ...options,
       })
 
+      const payload = await response.json().catch(() => ({}))
+
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`)
+        throw new Error(payload.message || payload.error || `HTTP ${response.status}`)
       }
 
-      return await response.json()
+      return payload
     } catch (err) {
       throw new Error(err.message || 'Request failed')
     }
@@ -56,7 +60,13 @@ function App() {
     try {
       const result = await request('/api/auth/register', {
         method: 'POST',
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          developer_id: developerId || undefined,
+          role,
+        }),
       })
 
       if (result.token) {
@@ -64,9 +74,11 @@ function App() {
         setUser(result.user)
         localStorage.setItem('sprintflow_user', JSON.stringify(result.user))
         setMessage('Registration successful!')
-        setUsername('')
+        setName('')
         setEmail('')
         setPassword('')
+        setDeveloperId('')
+        setRole('developer')
       }
     } catch (err) {
       setError(err.message)
@@ -107,9 +119,11 @@ function App() {
     setUser(null)
     localStorage.removeItem('token')
     localStorage.removeItem('sprintflow_user')
-    setUsername('')
+    setName('')
     setEmail('')
     setPassword('')
+    setDeveloperId('')
+    setRole('developer')
     setMode('login')
   }
 
@@ -167,9 +181,9 @@ function App() {
               <h2>Register</h2>
               <input
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
               <input
@@ -180,12 +194,26 @@ function App() {
                 required
               />
               <input
+                type="text"
+                placeholder="Developer ID (e.g., DEV-001)"
+                value={developerId}
+                onChange={(e) => setDeveloperId(e.target.value.toUpperCase())}
+              />
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="developer">Developer</option>
+                <option value="manager">Manager</option>
+                <option value="user">Observer</option>
+              </select>
+              <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <p className="helper-text">
+                Metrics are linked to seeded developer IDs. Use a demo account for full data or enter a valid ID.
+              </p>
               <button type="submit" disabled={loading}>
                 {loading ? 'Registering...' : 'Register'}
               </button>

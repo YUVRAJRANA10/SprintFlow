@@ -600,3 +600,9 @@ button {
   font-size: 0.95rem;
   margin-bottom: 16px;
 }
+
+.helper-text {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}

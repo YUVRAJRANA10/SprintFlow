@@ -158,6 +158,11 @@
   color: var(--accent);
 }
 
+.banner.info {
+  background: rgba(141, 162, 255, 0.12);
+  color: #cdd7ff;
+}
+
 .feature-grid,
 .summary-grid,
 .metrics-grid {
