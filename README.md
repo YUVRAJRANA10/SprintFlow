@@ -33,6 +33,19 @@ This aligns with sprint tracking, contributor workflow visibility, and team-leve
 
 ---
 
+## 🌐 Live Demo (No Setup Required)
+
+You can access the live app directly without local setup:
+
+- **Frontend (Vercel):** https://sprint-lens.vercel.app
+- **Backend (Render):** https://sprintlens-lg19.onrender.com
+
+**Test Login**
+- **Email:** alice.johnson@sprintlens.dev
+- **Password:** Password123!
+
+---
+
 ## 📋 Data Model
 
 SprintFlow manages five collections:
